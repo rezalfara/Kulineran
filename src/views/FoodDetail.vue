@@ -3,7 +3,7 @@
     <MainNavbar />
     <div class="container">
       <!-- Breadcrumb -->
-      <div class="row mt-5">
+      <div class="row mt-4">
         <div class="col">
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -88,7 +88,7 @@ export default {
         this.pesan.jumlah_pemesanan <= 0 ||
         this.pesan.jumlah_pemesanan == null
       ) {
-        this.$toast.success("Jumlah pesanan minimal 1", {
+        this.$toast.error("Jumlah pesanan minimal 1", {
           type: "error",
           position: "top-right",
           duration: 3000,

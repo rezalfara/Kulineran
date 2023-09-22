@@ -84,13 +84,31 @@ export default {
       this.product = data;
     },
     pemesanan() {
-      this.pesan.products = this.product;
-      axios
-        .post("http://localhost:3000/keranjang", this.pesan)
-        .then(() => {
-          console.log("Berhasil");
-        })
-        .catch((err) => console.log(err));
+      if (
+        this.pesan.jumlah_pemesanan <= 0 ||
+        this.pesan.jumlah_pemesanan == null
+      ) {
+        this.$toast.success("Jumlah pesanan minimal 1", {
+          type: "error",
+          position: "top-right",
+          duration: 3000,
+          dismissible: true,
+        });
+      } else {
+        this.pesan.products = this.product;
+        axios
+          .post("http://localhost:3000/keranjang", this.pesan)
+          .then(() => {
+            this.$router.push({ path: "/keranjang"})
+            this.$toast.success("Sukses masuk keranjang", {
+              type: "success",
+              position: "top-right",
+              duration: 3000,
+              dismissible: true,
+            });
+          })
+          .catch((err) => console.log(err));
+      }
     },
   },
   mounted() {

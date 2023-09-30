@@ -156,31 +156,24 @@ export default {
         .catch((error) => console.log(error));
     },
     checkout() {
-      if (this.pesan.nama && this.pesan.noMeja) {
+      if (this.pesan.noMeja <= 0){
+        this.$toast.error("Nomor Meja Salah", {
+          type: "error",
+          position: "top-right",
+          duration: 3000,
+          dismissible: true,
+        });
+      } else if (this.pesan.nama && this.pesan.noMeja) {
         this.pesan.keranjang = this.keranjang;
         axios
           .post("http://localhost:3000/pesanan", this.pesan)
           .then(() => {
-            this.keranjang.map(function(item) {
+            // Hapus semua keranjang
+            this.keranjang.map(function (item) {
               return axios
-        .delete("http://localhost:3000/keranjang/" + id)
-        .then(() => {
-          this.$toast.error("Sukses Hapus Keranjang", {
-            type: "error",
-            position: "top-right",
-            duration: 3000,
-            dismissible: true,
-          });
-
-          //update data keranjang
-          axios
-            .get("http://localhost:3000/keranjang")
-            .then((response) => this.setKeranjang(response.data))
-            .catch((error) => console.log(error));
-        })
-        .catch((error) => console.log(error));
-            })
-
+                .delete("http://localhost:3000/keranjang/" + item.id)
+                .catch((error) => console.log(error));
+            });
             this.$router.push({ path: "/pesanan-sukses" });
             this.$toast.success("Sukses Dipesan", {
               type: "success",
